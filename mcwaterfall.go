@@ -6,11 +6,13 @@ import (
 	"log"
 	"os"
 	"path"
+
+	"github.com/benmcclelland/mcwaterfall/mcshapes"
 )
 
 //BuildWaterFalls builds n, s, e, w waterfalls
 func BuildWaterFalls(basename string) error {
-	origin := XYZ{X: 0, Y: 0, Z: -2}
+	origin := mcshapes.XYZ{X: 0, Y: 0, Z: -2}
 
 	for _, direction := range []string{"north", "east", "south", "west"} {
 		fname := path.Join(basename, "waterfall_"+direction)
@@ -20,9 +22,9 @@ func BuildWaterFalls(basename string) error {
 		}
 		defer f.Close()
 
-		obj := NewMCObject(WithOrientation(direction))
+		obj := mcshapes.NewMCObject(mcshapes.WithOrientation(direction))
 		wf := CreateWaterfall(origin, obj)
-		err = WriteBoxes(f, wf)
+		err = mcshapes.WriteBoxes(f, wf)
 		if err != nil {
 			return fmt.Errorf("build waterfall: %v", err)
 		}
@@ -33,7 +35,7 @@ func BuildWaterFalls(basename string) error {
 
 //BuildLavaFalls builds n, s, e, w lava falls
 func BuildLavaFalls(basename string) error {
-	origin := XYZ{X: 0, Y: 0, Z: -2}
+	origin := mcshapes.XYZ{X: 0, Y: 0, Z: -2}
 
 	for _, direction := range []string{"north", "east", "south", "west"} {
 		fname := path.Join(basename, "lavafall_"+direction)
@@ -43,9 +45,11 @@ func BuildLavaFalls(basename string) error {
 		}
 		defer f.Close()
 
-		obj := NewMCObject(WithOrientation(direction), WithType("lavafall"))
+		obj := mcshapes.NewMCObject(
+			mcshapes.WithOrientation(direction),
+			mcshapes.WithType("lavafall"))
 		wf := CreateWaterfall(origin, obj)
-		err = WriteBoxes(f, wf)
+		err = mcshapes.WriteBoxes(f, wf)
 		if err != nil {
 			return fmt.Errorf("build lavafall: %v", err)
 		}

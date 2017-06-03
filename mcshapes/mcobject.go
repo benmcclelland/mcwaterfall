@@ -1,4 +1,4 @@
-package main
+package mcshapes
 
 //XYZ holds the x y and z locations
 type XYZ struct {
@@ -68,4 +68,20 @@ func WithType(oType string) MCOption {
 //WithLocation sets the base location of the waterfall
 func WithLocation(location XYZ) MCOption {
 	return func(m *MCObject) { m.location = location }
+}
+
+func (m MCObject) Width() int {
+	return m.width
+}
+
+func (m MCObject) Height() int {
+	return m.height
+}
+
+func (m MCObject) Orientation() string {
+	return m.orientation
+}
+
+func (m MCObject) OType() string {
+	return m.oType
 }
